@@ -1,0 +1,52 @@
+{
+  "interaction_history": [
+    {
+      "date": "2025-04-10",
+      "type": "Email",
+      "summary": "Initial onboarding. Customer signed wholesale agreement for barware and kitchen accessories.",
+      "sentiment": "Positive"
+    },
+    {
+      "date": "2025-07-22",
+      "type": "Chat",
+      "summary": "Bulk order inquiry — 200 units of assorted glassware for corporate event. Fulfilled under expedited shipping.",
+      "sentiment": "Positive"
+    },
+    {
+      "date": "2025-09-05",
+      "type": "Email",
+      "summary": "Delayed shipment on order 58201437. Customer notified proactively, offered 5% discount on next order.",
+      "sentiment": "Neutral"
+    },
+    {
+      "date": "2025-11-18",
+      "type": "Chat",
+      "summary": "Customer requested updated product catalog for Q1 2026 planning. Catalog sent same day.",
+      "sentiment": "Positive"
+    },
+    {
+      "date": "2026-01-12",
+      "type": "Phone",
+      "summary": "Pricing dispute on order 59843102. Two items charged at retail instead of wholesale rate. Manual credit applied.",
+      "sentiment": "Negative"
+    },
+    {
+      "date": "2026-03-15",
+      "type": "Chat",
+      "summary": "Customer placed order 61356291 for wine glasses, stemware rack, corkscrew, and stemless wine glasses set. Total: $212.09.",
+      "sentiment": "Positive"
+    },
+    {
+      "date": "2026-03-22",
+      "type": "Chat",
+      "summary": "Customer requested return of stemless wine glasses (Item 4, $14.29 gross). Invoice amended, item removed, totals recalculated.",
+      "sentiment": "Neutral"
+    },
+    {
+      "date": "2026-03-22",
+      "type": "Chat",
+      "summary": "Support agent raised HelpDesk ticket #1025 for refund processing. Ticket shared with customer via Matrix.",
+      "sentiment": "Positive"
+    }
+  ]
+}

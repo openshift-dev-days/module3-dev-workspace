@@ -1,0 +1,41 @@
+{
+	"kaoto-datamapper-beba1703": {
+		"sourceBody": {
+			"type": "JSON Schema",
+			"filePath": [
+				"support/schemas/common.json"
+			]
+		},
+		"sourceParameters": {},
+		"targetBody": {
+			"type": "JSON Schema",
+			"filePath": [
+				"support/schemas/rocketchat-out.json"
+			]
+		},
+		"xsltPath": "kaoto-datamapper-beba1703.xsl",
+		"namespaceMap": {
+			"xs": "http://www.w3.org/2001/XMLSchema",
+			"fn": "http://www.w3.org/2005/xpath-functions"
+		}
+	},
+	"kaoto-datamapper-e6fb3e6b-4288": {
+		"sourceBody": {
+			"type": "XML Schema",
+			"filePath": [
+				"support/schemas/X12-850.dfdl.xsd"
+			],
+			"fieldTypeOverrides": []
+		},
+		"sourceParameters": {},
+		"targetBody": {
+			"type": "XML Schema",
+			"filePath": [
+				"support/schemas/850.xsd"
+			],
+			"fieldTypeOverrides": []
+		},
+		"xsltPath": "kaoto-datamapper-e6fb3e6b-4288.xsl",
+		"namespaceMap": {}
+	}
+}

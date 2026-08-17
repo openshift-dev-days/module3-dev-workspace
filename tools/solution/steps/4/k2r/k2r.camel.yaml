@@ -1,0 +1,20 @@
+- route:
+    description: Kafka to RocketChat
+    from:
+      description: "To do: Kafka"
+      steps:
+        - filter:
+            description: "To do: Filter"
+            steps:
+              - stop: {}
+            jq:
+              expression: ""
+        - step:
+            description: "To do: Mapping"
+        - to:
+            description: RocketChat
+            uri: kamelet
+            parameters:
+              templateId: rocketchat-sink
+              token: "{{rocketchat.token}}"
+              userid: "{{rocketchat.userid}}"

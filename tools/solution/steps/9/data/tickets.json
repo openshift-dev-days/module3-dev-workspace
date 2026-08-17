@@ -1,0 +1,29 @@
+{
+  "tickets": [
+    {
+      "id": "TKT-0871",
+      "subject": "Delayed shipment — Order 58201437",
+      "priority": "High",
+      "opened_at": "2025-09-05T09:15:00Z",
+      "closed_at": "2025-09-12T16:40:00Z",
+      "resolution": "Shipment delivered 5 business days late. 5% discount coupon issued for next order. Customer accepted."
+    },
+    {
+      "id": "TKT-0943",
+      "subject": "Pricing correction — Order 59843102",
+      "priority": "Medium",
+      "opened_at": "2026-01-12T11:20:00Z",
+      "closed_at": "2026-01-15T14:00:00Z",
+      "resolution": "Two items charged at retail rate instead of wholesale. Credit of $127.40 applied. Invoice reissued."
+    },
+    {
+      "id": "TKT-1025",
+      "subject": "Refund request — Stemless wine glasses returned (Invoice 61356291)",
+      "priority": "Medium",
+      "opened_at": "2026-03-22T14:10:00Z",
+      "closed_at": null,
+      "resolution": null,
+      "initial_summary": "Customer requested return of Item 4 (Stemless Wine Glasses, $14.29). Invoice amended, PDF regenerated. Pending: confirm goods received, process refund, update inventory."
+    }
+  ]
+}

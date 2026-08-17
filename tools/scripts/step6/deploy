@@ -1,0 +1,81 @@
+#!/bin/bash
+set -euo pipefail
+
+# Load common variables
+echo "Running step 6 deployment"
+
+# Ensure work is done from lab directory
+cd /projects/workshop/lab
+
+# Get user
+# don't use 'oc whoami' so that admins can run this script
+USER=$(echo "$DEVWORKSPACE_NAMESPACE" | sed 's/-devspaces$//')
+
+info "Preparing configuration..."
+
+# ========================================
+# Prepare configuration properties
+# ========================================
+
+# Read credentials from lab-config (populated by step-config)
+CACHE="/tmp/lab-config.cache"
+if [ ! -s "$CACHE" ]; then
+  oc get secret lab-config -o json | jq -r '.data["config"]' | base64 -d > "$CACHE"
+fi
+
+ROCKETCHAT_TOKEN=$(grep '^rocketchat_token=' "$CACHE" | cut -d'=' -f2-)
+ROCKETCHAT_USERID=$(grep '^rocketchat_userid=' "$CACHE" | cut -d'=' -f2-)
+MATRIX_TOKEN=$(grep '^matrix_token=' "$CACHE" | cut -d'=' -f2-)
+MATRIX_ROOM=$(grep '^matrix_room=' "$CACHE" | cut -d'=' -f2-)
+
+cat > matrix.properties <<EOF
+# Matrix credentials
+matrix.token=$MATRIX_TOKEN
+matrix.room=$MATRIX_ROOM
+EOF
+
+cat > rocketchat.properties <<EOF
+# Rocket.Chat credentials
+rocketchat.token=$ROCKETCHAT_TOKEN
+rocketchat.userid=$ROCKETCHAT_USERID
+EOF
+
+info "Property files ready."
+
+# m2k deployment
+if oc get deploy m2k &> /dev/null; then
+  info "[m2k] already deployed – skipping"
+else
+  info "Deploying m2k..."
+  labdeploy m2k matrix.properties
+  info "[m2k] Ready"
+fi
+
+# k2m deployment
+if oc get deploy k2m &> /dev/null; then
+  info "[k2m] already deployed – skipping"
+else
+  info "Deploying k2m..."
+  labdeploy k2m matrix.properties
+  info "[k2m] Ready"
+fi
+
+# r2k deployment
+if oc get deploy r2k &> /dev/null; then
+  info "[r2k] already deployed – skipping"
+else
+  info "Deploying r2k..."
+  labdeploy r2k rocketchat.properties
+  info "[r2k] Ready"
+fi
+
+# k2r deployment
+if oc get deploy k2r &> /dev/null; then
+  info "[k2r] already deployed – skipping"
+else
+  info "Deploying k2r..."
+  labdeploy k2r rocketchat.properties
+  info "[k2r] Ready"
+fi
+
+info "All done."

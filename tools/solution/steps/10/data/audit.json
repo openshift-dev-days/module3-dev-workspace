@@ -1,0 +1,44 @@
+{
+  "invoice_audit_trail": [
+    {
+      "invoice_id": "58201437",
+      "date": "2025-07-22",
+      "gross_total": "$4,860.00",
+      "status": "PAID",
+      "notes": "Bulk glassware order for corporate event. Expedited shipping applied."
+    },
+    {
+      "invoice_id": "59843102",
+      "date": "2026-01-12",
+      "gross_total": "$1,340.50",
+      "status": "ADJUSTED",
+      "notes": "Two items corrected from retail to wholesale pricing. Credit of $127.40 applied."
+    },
+    {
+      "invoice_id": "60512088",
+      "date": "2026-02-08",
+      "gross_total": "$675.20",
+      "status": "PAID",
+      "notes": "Standard restock order. No issues."
+    },
+    {
+      "invoice_id": "61356291",
+      "date": "2026-03-15",
+      "seller": "Georgia World Congress Center, Atlanta, GA 30313",
+      "items": [
+        { "no": 1, "description": "Wine Glasses Goblets Pair Clear Glass", "qty": 5, "gross": "$66.00" },
+        { "no": 2, "description": "With Hooks Stemware Storage Multiple Uses Iron Wine Rack Hanging Glass", "qty": 4, "gross": "$123.55" },
+        { "no": 3, "description": "Replacement Corkscrew Parts Spiral Worm Wine Opener Bottle Houdini", "qty": 1, "gross": "$8.25" },
+        { "no": 4, "description": "HOME ESSENTIALS GRADIENT STEMLESS WINE GLASSES SET OF 4", "qty": 1, "gross": "$14.29", "status": "RETURNED" }
+      ],
+      "original_gross": "$212.09",
+      "amended_gross": "$197.80",
+      "status": "AMENDED",
+      "logs": [
+        { "timestamp": "2026-03-15T10:30:00Z", "action": "AUTO_GENERATE", "details": "Invoice generated from EDI purchase order. 4 items, Gross: $212.09." },
+        { "timestamp": "2026-03-22T14:05:33Z", "action": "ITEM_REMOVAL", "user": "ai-bot", "details": "Removed Item 4 (Stemless Wine Glasses). Gross adjusted: -$14.29." },
+        { "timestamp": "2026-03-22T14:06:02Z", "action": "PDF_REGENERATION", "details": "Amended invoice PDF generated. Version 2.0." }
+      ]
+    }
+  ]
+}

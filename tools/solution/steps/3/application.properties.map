@@ -1,0 +1,23 @@
+
+
+
+
+# Datasource credentials
+forage.jdbc.username=db_username
+forage.jdbc.password=db_password
+
+# S3 access
+camel.component.aws2-s3.accessKey=s3_access_key
+camel.component.aws2-s3.secretKey=s3_secret_key
+camel.component.aws2-s3.uriEndpointOverride=s3_endpoint
+
+# S3 bucket
+s3.bucket=s3_bucket
+
+
+
+
+
+
+# Customer support chat URL
+support.url=matrix_url

@@ -1,0 +1,22 @@
+{
+  "customer_id": "CKG-61356",
+  "account_info": {
+    "company": "Chapman, Kim and Green",
+    "membership_level": "Gold",
+    "status": "Active",
+    "region": "US-East",
+    "tenure_years": 3.5,
+    "address": "64751 James Branch, Smithmouth, NC 26872",
+    "tax_id": "949-84-9105",
+    "annual_revenue": "$48,200",
+    "payment_terms": "Net 30",
+    "preferred_carrier": "FedEx Ground"
+  },
+  "contact_preferences": {
+    "primary_contact": "Dana Kim",
+    "role": "Procurement Manager",
+    "channel": "Matrix",
+    "language": "EN-US",
+    "timezone": "America/New_York"
+  }
+}
