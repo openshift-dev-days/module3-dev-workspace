@@ -49,8 +49,8 @@ components:
   - name: m2
     volume:
       size: 3Gi
-events:
-  postStart:
-    - set-camel-cli
-    - setup-lab-default
-    - config-settings-snapshot
+# events:
+#   postStart:
+#     - set-camel-cli
+#     - setup-lab-default
+#     - config-settings-snapshot
