@@ -54,3 +54,8 @@ components:
 #     - set-camel-cli
 #     - setup-lab-default
 #     - config-settings-snapshot
+projects:
+  - name: workshop
+    git:
+      remotes:
+        origin: https://github.com/openshift-dev-days/module3-dev-workspace.git
