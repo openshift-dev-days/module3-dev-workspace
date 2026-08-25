@@ -1,3 +1,7 @@
+// package org.example.project.pdfrenderer;
+package org.acme;
+
+
 //DEPS com.vladsch.flexmark:flexmark-all:0.64.8
 //DEPS com.itextpdf:html2pdf:6.1.0
 //DEPS com.itextpdf:itext7-core:9.1.0@pom

@@ -1,12 +1,11 @@
 #!/bin/bash
 
 # MCP Server Management Script
-# Manages Node.js and Camel MCP servers
+# Manages both Node.js and Camel Quarkus MCP servers
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 NODE_SERVER_DIR="$SCRIPT_DIR/mcp-servers/node-js"
-CAMEL_SERVER_DIR="$SCRIPT_DIR/mcp-servers/camel"
-CAMEL_PROCESS_NAME="mcp-camel"
+QUARKUS_SERVER_DIR="$SCRIPT_DIR/mcp-servers/camel-quarkus"
 
 # Colors for output
 RED='\033[0;31m'
@@ -34,9 +33,9 @@ function check_nodejs_installed() {
     fi
 }
 
-function check_camel_installed() {
-    if ! command -v camel &> /dev/null; then
-        log_error "Camel CLI is not installed"
+function check_java_installed() {
+    if ! command -v java &> /dev/null; then
+        log_error "Java is not installed"
         exit 1
     fi
 }
@@ -44,6 +43,7 @@ function check_camel_installed() {
 # ===== Node.js Server Functions =====
 
 function get_node_pid() {
+    # Find node process by working directory
     for pid in $(pgrep -f "node.*index.js"); do
         local cwd=$(pwdx $pid 2>/dev/null | awk '{print $2}')
         if [ "$cwd" == "$NODE_SERVER_DIR" ]; then
@@ -69,7 +69,7 @@ function start_node() {
 
     check_nodejs_installed
 
-    pushd "$NODE_SERVER_DIR" > /dev/null || {
+    cd "$NODE_SERVER_DIR" || {
         log_error "${BLUE}[Node.js]${NC} Cannot access server directory: $NODE_SERVER_DIR"
         exit 1
     }
@@ -86,9 +86,8 @@ function start_node() {
     log_info "${BLUE}[Node.js]${NC} Starting server..."
     nohup npm start > "$NODE_SERVER_DIR/server.log" 2>&1 &
 
+    # Wait for process to appear
     sleep 3
-
-    popd > /dev/null
 
     if is_node_running; then
         local pid=$(get_node_pid)
@@ -112,9 +111,12 @@ function stop_node() {
     fi
 
     log_info "${BLUE}[Node.js]${NC} Stopping server (PID: $pid)..."
+
+    # Kill the node process and any child processes
     pkill -P $pid 2>/dev/null
     kill $pid 2>/dev/null
 
+    # Wait for graceful shutdown
     local waited=0
     while [ $waited -lt 10 ]; do
         if ! is_node_running; then
@@ -124,6 +126,7 @@ function stop_node() {
         waited=$((waited + 1))
     done
 
+    # Force kill if still running
     if is_node_running; then
         log_warn "${BLUE}[Node.js]${NC} Forcing shutdown..."
         kill -9 $pid 2>/dev/null
@@ -164,75 +167,133 @@ function logs_node() {
     fi
 }
 
-# ===== Camel Server Functions =====
+# ===== Quarkus Server Functions =====
 
-function is_camel_running() {
-    camel ps 2>/dev/null | grep -q "$CAMEL_PROCESS_NAME"
+function get_quarkus_pid() {
+    # Find java process running from the specific server directory (the actual Quarkus app, not mvnw)
+    for pid in $(pgrep -f "java.*quarkus"); do
+        local cmdline=$(cat /proc/$pid/cmdline 2>/dev/null | tr '\0' ' ')
+        if [[ "$cmdline" == *"mcp-servers/camel-quarkus"* ]]; then
+            echo $pid
+            return
+        fi
+    done
 }
 
-function start_camel() {
-    log_info "${YELLOW}[Camel]${NC} Starting MCP server..."
+function is_quarkus_running() {
+    local pid=$(get_quarkus_pid)
+    [ -n "$pid" ]
+}
 
-    if is_camel_running; then
-        log_warn "${YELLOW}[Camel]${NC} Server is already running"
+function start_quarkus() {
+    log_info "${YELLOW}[Quarkus]${NC} Starting MCP server..."
+
+    if is_quarkus_running; then
+        local existing_pid=$(get_quarkus_pid)
+        log_warn "${YELLOW}[Quarkus]${NC} Server is already running (PID: $existing_pid)"
         return 0
     fi
 
-    check_camel_installed
+    check_java_installed
 
-    if [ ! -d "$CAMEL_SERVER_DIR" ]; then
-        log_error "${YELLOW}[Camel]${NC} Cannot access server directory: $CAMEL_SERVER_DIR"
+    cd "$QUARKUS_SERVER_DIR" || {
+        log_error "${YELLOW}[Quarkus]${NC} Cannot access server directory: $QUARKUS_SERVER_DIR"
         exit 1
-    fi
+    }
 
-    log_info "${YELLOW}[Camel]${NC} Starting Camel MCP server..."
-    camel run "$CAMEL_SERVER_DIR" --dep org.apache.camel:camel-xslt-saxon:4.22.0 --background --name "$CAMEL_PROCESS_NAME"
+    log_info "${YELLOW}[Quarkus]${NC} Starting Quarkus dev mode..."
+    nohup ./mvnw quarkus:dev -Dquarkus.log.console.enable=true > "$QUARKUS_SERVER_DIR/server.log" 2>&1 &
 
-    sleep 3
+    # Quarkus takes longer to start
+    log_info "${YELLOW}[Quarkus]${NC} Waiting for Quarkus to start (this may take 10-20 seconds)..."
+    sleep 5
 
-    if is_camel_running; then
-        log_info "${YELLOW}[Camel]${NC} Server started"
-        log_info "${YELLOW}[Camel]${NC} Endpoint: http://localhost:9091/mcp"
+    # Wait for Quarkus to be fully ready
+    local waited=0
+    while [ $waited -lt 30 ]; do
+        if grep -q "Listening on:" "$QUARKUS_SERVER_DIR/server.log" 2>/dev/null; then
+            local pid=$(get_quarkus_pid)
+            log_info "${YELLOW}[Quarkus]${NC} Server started (PID: $pid)"
+            local port=$(grep "^quarkus.http.port=" "$QUARKUS_SERVER_DIR/src/main/resources/application.properties" 2>/dev/null | cut -d'=' -f2)
+            log_info "${YELLOW}[Quarkus]${NC} Endpoint: http://localhost:${port:-8080}/mcp"
+            return 0
+        fi
+        sleep 1
+        waited=$((waited + 1))
+    done
+
+    if is_quarkus_running; then
+        log_warn "${YELLOW}[Quarkus]${NC} Server started but may not be fully ready yet. Check logs."
     else
-        log_error "${YELLOW}[Camel]${NC} Failed to start. Check: camel logs --name $CAMEL_PROCESS_NAME"
+        log_error "${YELLOW}[Quarkus]${NC} Failed to start. Check: $QUARKUS_SERVER_DIR/server.log"
         exit 1
     fi
 }
 
-function stop_camel() {
-    log_info "${YELLOW}[Camel]${NC} Stopping MCP server..."
+function stop_quarkus() {
+    log_info "${YELLOW}[Quarkus]${NC} Stopping MCP server..."
 
-    if ! is_camel_running; then
-        log_warn "${YELLOW}[Camel]${NC} Server is not running"
+    local pid=$(get_quarkus_pid)
+
+    if [ -z "$pid" ]; then
+        log_warn "${YELLOW}[Quarkus]${NC} Server is not running"
         return 0
     fi
 
-    camel stop "$CAMEL_PROCESS_NAME" 2>/dev/null
+    log_info "${YELLOW}[Quarkus]${NC} Stopping server (PID: $pid)..."
 
-    sleep 2
+    # Quarkus dev mode responds to SIGINT (Ctrl+C)
+    kill -INT $pid 2>/dev/null
 
-    if is_camel_running; then
-        log_error "${YELLOW}[Camel]${NC} Failed to stop server"
+    local waited=0
+    while [ $waited -lt 15 ]; do
+        if ! is_quarkus_running; then
+            break
+        fi
+        sleep 1
+        waited=$((waited + 1))
+    done
+
+    # Force kill if still running
+    if is_quarkus_running; then
+        log_warn "${YELLOW}[Quarkus]${NC} Forcing shutdown..."
+        # Kill the entire process tree
+        pkill -9 -P $pid 2>/dev/null
+        kill -9 $pid 2>/dev/null
+        sleep 1
+    fi
+
+    if is_quarkus_running; then
+        log_error "${YELLOW}[Quarkus]${NC} Failed to stop server"
         exit 1
     else
-        log_info "${YELLOW}[Camel]${NC} Server stopped"
+        log_info "${YELLOW}[Quarkus]${NC} Server stopped"
     fi
 }
 
-function status_camel() {
-    if is_camel_running; then
-        log_info "${YELLOW}[Camel]${NC} Server is ${GREEN}RUNNING${NC}"
-        log_info "${YELLOW}[Camel]${NC} Endpoint: http://localhost:9091/mcp"
+function status_quarkus() {
+    local pid=$(get_quarkus_pid)
+
+    if [ -n "$pid" ]; then
+        log_info "${YELLOW}[Quarkus]${NC} Server is ${GREEN}RUNNING${NC} (PID: $pid)"
+        local port=$(grep "^quarkus.http.port=" "$QUARKUS_SERVER_DIR/src/main/resources/application.properties" 2>/dev/null | cut -d'=' -f2)
+        log_info "${YELLOW}[Quarkus]${NC} Endpoint: http://localhost:${port:-8080}/mcp"
     else
-        log_warn "${YELLOW}[Camel]${NC} Server is ${RED}NOT RUNNING${NC}"
+        log_warn "${YELLOW}[Quarkus]${NC} Server is ${RED}NOT RUNNING${NC}"
     fi
 }
 
-function logs_camel() {
+function logs_quarkus() {
+    local log_file="$QUARKUS_SERVER_DIR/server.log"
+    if [ ! -f "$log_file" ]; then
+        log_warn "${YELLOW}[Quarkus]${NC} Log file not found"
+        return 1
+    fi
+
     if [ "$1" == "-f" ]; then
-        camel logs --name "$CAMEL_PROCESS_NAME" --follow
+        tail -f "$log_file"
     else
-        camel logs --name "$CAMEL_PROCESS_NAME" --tail 50
+        tail -n 50 "$log_file"
     fi
 }
 
@@ -244,16 +305,16 @@ function start() {
         node|nodejs)
             start_node
             ;;
-        camel)
-            start_camel
+        quarkus)
+            start_quarkus
             ;;
         all)
             start_node
             echo ""
-            start_camel
+            start_quarkus
             ;;
         *)
-            log_error "Unknown server: $server. Use 'node', 'camel', or 'all'"
+            log_error "Unknown server: $server. Use 'node', 'quarkus', or 'all'"
             exit 1
             ;;
     esac
@@ -265,16 +326,16 @@ function stop() {
         node|nodejs)
             stop_node
             ;;
-        camel)
-            stop_camel
+        quarkus)
+            stop_quarkus
             ;;
         all)
             stop_node
             echo ""
-            stop_camel
+            stop_quarkus
             ;;
         *)
-            log_error "Unknown server: $server. Use 'node', 'camel', or 'all'"
+            log_error "Unknown server: $server. Use 'node', 'quarkus', or 'all'"
             exit 1
             ;;
     esac
@@ -293,18 +354,18 @@ function status() {
         node|nodejs)
             status_node
             ;;
-        camel)
-            status_camel
+        quarkus)
+            status_quarkus
             ;;
         all)
             log_info "Checking MCP servers status..."
             echo ""
             status_node
             echo ""
-            status_camel
+            status_quarkus
             ;;
         *)
-            log_error "Unknown server: $server. Use 'node', 'camel', or 'all'"
+            log_error "Unknown server: $server. Use 'node', 'quarkus', or 'all'"
             exit 1
             ;;
     esac
@@ -318,11 +379,11 @@ function logs() {
         node|nodejs)
             logs_node "$follow"
             ;;
-        camel)
-            logs_camel "$follow"
+        quarkus)
+            logs_quarkus "$follow"
             ;;
         *)
-            log_error "Please specify server: 'node' or 'camel'"
+            log_error "Please specify server: 'node' or 'quarkus'"
             exit 1
             ;;
     esac
@@ -344,7 +405,7 @@ Commands:
 
 Servers:
     node, nodejs        Node.js MCP server (port 9090)
-    camel              Camel MCP server (port 9091)
+    quarkus            Camel Quarkus MCP server (port 9091)
     all                Both servers (default)
 
 Options:
@@ -354,8 +415,11 @@ Examples:
     $0 start              # Start both servers
     $0 start node         # Start only Node.js server
     $0 status             # Check status of both servers
-    $0 logs camel -f      # Follow Camel logs
+    $0 logs quarkus -f    # Follow Quarkus logs
     $0 stop all           # Stop both servers
+
+Note: This script detects servers by process pattern, not PID files.
+      It will detect and manage servers started manually or by other means.
 
 EOF
 }
@@ -376,7 +440,7 @@ case "${1:-}" in
         ;;
     logs)
         if [ -z "$2" ]; then
-            log_error "Please specify which server logs to view: 'node' or 'camel'"
+            log_error "Please specify which server logs to view: 'node' or 'quarkus'"
             exit 1
         fi
         logs "$2" "$3"
