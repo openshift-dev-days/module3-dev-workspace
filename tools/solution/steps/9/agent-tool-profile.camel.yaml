@@ -2,12 +2,13 @@
     id: tool-customer-profile
     from:
       id: tool-customer-profile
-      uri: langchain4j-tools
+      uri: ai-tool:amend-invoice
       parameters:
-        toolId: getCustomerProfile
         tags: all
-        description: Gets customer profile
+        description: "Gets customer profile"
         parameter.invoiceid: string
+        parameter.invoiceid.description: "Gets customer profile"
+        parameter.invoiceid.required: true
       steps:
         - step:
             steps:
