@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test Shop</title>
+  <title>Test Portal</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236366f1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z'/><line x1='3' y1='6' x2='21' y2='6'/><path d='M16 10a4 4 0 0 1-8 0'/></svg>">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -474,8 +474,8 @@
       <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
     </svg>
   </div>
-  <h1>Test Shop</h1>
-  <p>Your basket is ready &mdash; complete your purchase below</p>
+  <h1>Test Portal</h1>
+  <p>Select your coverages and submit your policy application below</p>
 </header>
 
 <main>
@@ -484,7 +484,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
       </svg>
-      Shopping Basket
+      Selected Coverages
     </div>
     <div id="items"></div>
     <div class="totals">
@@ -496,7 +496,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
         </svg>
-        Place Order
+        Submit Application
       </button>
     </div>
   </div>
@@ -506,15 +506,15 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
       </svg>
-      Invoice Generated
+      Policy Document Generated
     </div>
     <div class="invoice-body">
-      <p>Your order has been processed and an invoice is ready.</p>
+      <p>Your application has been processed and a policy document is ready.</p>
       <a class="invoice-link" id="invoiceLink" href="#" target="_blank">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
         </svg>
-        View Invoice (PDF)
+        View Policy Document (PDF)
       </a>
       <div class="invoice-filename" id="invoiceFilename"></div>
       <div class="db-check">
@@ -578,42 +578,41 @@
 <script>
 /* ---- inline SVG product illustrations ---- */
 const icons = {
-  WINEGLASS01: {
-    bg: "#fef3f2",
-    svg: `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M24 8h16v4c0 8-5 14-8 16v12h-0v-12c-3-2-8-8-8-16V8z" fill="#fecaca" stroke="#b91c1c" stroke-width="2"/>
-      <rect x="22" y="52" width="20" height="3" rx="1.5" fill="#b91c1c"/>
-      <line x1="32" y1="40" x2="32" y2="52" stroke="#b91c1c" stroke-width="2"/>
-      <ellipse cx="32" cy="12" rx="7" ry="2" fill="#fca5a5" opacity=".5"/>
-    </svg>`
-  },
-  DECANTER02: {
-    bg: "#f0fdf4",
-    svg: `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M28 6h8v8l6 14c1 2 1 4 1 6v10a6 6 0 0 1-6 6H27a6 6 0 0 1-6-6V34c0-2 0-4 1-6l6-14V6z" fill="#bbf7d0" stroke="#15803d" stroke-width="2"/>
-      <rect x="27" y="4" width="10" height="4" rx="1" fill="#15803d"/>
-      <ellipse cx="32" cy="38" rx="8" ry="4" fill="#86efac" opacity=".4"/>
-      <path d="M24 30c4 2 12 2 16 0" stroke="#15803d" stroke-width="1.5" opacity=".5"/>
-    </svg>`
-  },
-  CORKSCREW03: {
+  "LIAB-STD01": {
     bg: "#eff6ff",
     svg: `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="30" y="6" width="4" height="20" rx="2" fill="#93c5fd" stroke="#1d4ed8" stroke-width="1.5"/>
-      <path d="M32 26c-2 3-4 5-4 8s2 6 4 8c2-2 4-5 4-8s-2-5-4-8z" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="1.5"/>
-      <path d="M32 42v12" stroke="#1d4ed8" stroke-width="2.5" stroke-linecap="round"/>
-      <path d="M26 54h12" stroke="#1d4ed8" stroke-width="2.5" stroke-linecap="round"/>
-      <circle cx="32" cy="12" r="2" fill="#1d4ed8"/>
-      <path d="M22 10h6M36 10h6" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round"/>
+      <path d="M32 8L14 16v14c0 12 8 22 18 26 10-4 18-14 18-26V16L32 8z" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="2"/>
+      <circle cx="32" cy="27" r="5" fill="#1d4ed8"/>
+      <path d="M22 44c0-5.5 4.5-9 10-9s10 3.5 10 9" fill="#1d4ed8"/>
     </svg>`
   },
-  COASTER04: {
+  "PROP-DAM01": {
+    bg: "#f0fdf4",
+    svg: `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 30L32 12l22 18v22H10V30z" fill="#bbf7d0" stroke="#15803d" stroke-width="2"/>
+      <rect x="23" y="38" width="9" height="14" rx="1" fill="#15803d"/>
+      <rect x="34" y="40" width="8" height="12" rx="1" fill="#86efac"/>
+    </svg>`
+  },
+  "MED-PAY01": {
+    bg: "#fef2f2",
+    svg: `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M32 52C32 52 12 40 12 25a11 11 0 0 1 20-6.2A11 11 0 0 1 52 25c0 15-20 27-20 27z" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+      <path d="M27 26h10M32 21v10" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>`
+  },
+  "ROAD-AST01": {
     bg: "#faf5ff",
     svg: `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <ellipse cx="32" cy="36" rx="20" ry="8" fill="#e9d5ff" stroke="#7c3aed" stroke-width="2"/>
-      <ellipse cx="32" cy="32" rx="20" ry="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
-      <ellipse cx="32" cy="32" rx="14" ry="5.5" fill="none" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="3 3"/>
-      <ellipse cx="32" cy="32" rx="7" ry="2.5" fill="#ddd6fe" opacity=".6"/>
+      <circle cx="32" cy="32" r="29" fill="#8b5cf6"/>
+      <circle cx="32" cy="32" r="21" fill="#f5f3ff"/>
+      <line x1="32" y1="24" x2="32" y2="12" stroke="#a78bfa" stroke-width="5" stroke-linecap="round"/>
+      <line x1="39.6" y1="29.5" x2="51" y2="25.8" stroke="#a78bfa" stroke-width="5" stroke-linecap="round"/>
+      <line x1="36.7" y1="38.5" x2="43.8" y2="48.2" stroke="#a78bfa" stroke-width="5" stroke-linecap="round"/>
+      <line x1="27.3" y1="38.5" x2="20.2" y2="48.2" stroke="#a78bfa" stroke-width="5" stroke-linecap="round"/>
+      <line x1="24.4" y1="29.5" x2="13" y2="25.8" stroke="#a78bfa" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="32" cy="32" r="7" fill="#a78bfa"/>
+      <circle cx="32" cy="32" r="3" fill="#8b5cf6"/>
     </svg>`
   }
 };
@@ -622,10 +621,10 @@ let orderPlaced = false;
 let lastPoNumber = null;
 
 const catalog = [
-  { sku: "WINEGLASS01", name: "Wine Glasses Goblets Pair Clear Glass",  price: 12.00, qty: 0 },
-  { sku: "DECANTER02",  name: "Crystal Wine Decanter 750ml",           price: 34.50, qty: 0 },
-  { sku: "CORKSCREW03", name: "Stainless Steel Corkscrew",             price:  8.99, qty: 0 },
-  { sku: "COASTER04",   name: "Marble Coaster Set (6 pack)",           price: 18.00, qty: 0 },
+  { sku: "LIAB-STD01", name: "Personal Liability – Standard Plan", desc: "Personal Liability – Standard Plan | Bodily injury & property damage | Limit: $100,000/occurrence",    price: 28.99, qty: 0 },
+  { sku: "PROP-DAM01", name: "Property Damage",                    desc: "Property Damage | Third-party property damage caused by insured | Limit: $50,000 | Deductible: $500",   price: 34.50, qty: 0 },
+  { sku: "MED-PAY01",  name: "Medical Payments",                   desc: "Medical Payments | No-fault medical expenses for injured parties | Limit: $5,000 per person",             price: 18.00, qty: 0 },
+  { sku: "ROAD-AST01", name: "Roadside Assistance",                desc: "Roadside Assistance | 24/7 towing, jump-start & lockout service | Up to 50 miles per incident",          price: 12.00, qty: 0 },
 ];
 
 function render() {
@@ -637,13 +636,13 @@ function render() {
       <div class="item-thumb" style="background:${icon.bg}">${icon.svg}</div>
       <div class="item-info">
         <div class="item-name">${item.name}</div>
-        <div class="item-unit">$${item.price.toFixed(2)} each</div>
+        <div class="item-unit">$${item.price.toFixed(2)}/mo.</div>
         <div class="item-sku">${item.sku}</div>
       </div>
       <div class="qty">
         <button onclick="changeQty(${i}, -1)">&minus;</button>
         <span>${item.qty}</span>
-        <button onclick="changeQty(${i}, 1)">+</button>
+        <button onclick="changeQty(${i}, 1)" ${item.qty >= 1 ? 'disabled' : ''}>+</button>
       </div>
       <div class="item-price">$${(item.price * item.qty).toFixed(2)}</div>
     </div>`;
@@ -662,12 +661,12 @@ function render() {
   } else {
     btn.onclick = buy;
     btn.disabled = !hasItems;
-    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Place Order';
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Submit Application';
   }
 }
 
 function changeQty(index, delta) {
-  catalog[index].qty = Math.max(0, catalog[index].qty + delta);
+  catalog[index].qty = Math.max(0, Math.min(1, catalog[index].qty + delta));
   render();
 }
 
@@ -695,11 +694,12 @@ function buildX12() {
   lines.push(`N1*BY*Web Customer*91*939988477~`);
   lines.push(`N3*123 Demo Street~`);
   lines.push(`N4*Demoville*CA*90210~`);
-  lines.push(`N1*SE*Test Shop Warehouse*91*949849105~`);
-  lines.push(`N3*456 Warehouse Blvd~`);
-  lines.push(`N4*Stockton*CA*95202~`);
+  lines.push(`N1*SE*Alex Morgan*91*949849105~`);
+  lines.push(`N3*742 Maple Avenue~`);
+  lines.push(`N4*Austin*TX*78701~`);
+  lines.push(`N9*IB*GB50ACIE59715038217063~`);
 
-  let segCount = 10;
+  let segCount = 11;
   let totalQty = 0;
   let lineNum  = 0;
 
@@ -708,7 +708,7 @@ function buildX12() {
     lineNum++;
     totalQty += item.qty;
     lines.push(`PO1*${lineNum}*${item.qty}*EA*${item.price.toFixed(2)}*QT*SK*${item.sku}~`);
-    lines.push(`PID*F****${item.name}~`);
+    lines.push(`PID*F****${item.desc}~`);
     segCount += 2;
   });
 
@@ -726,7 +726,7 @@ function buildX12() {
 /* ---- send to Camel ---- */
 async function buy() {
   const hasItems = catalog.some(it => it.qty > 0);
-  if (!hasItems) { showToast("Add at least one item", true); return; }
+  if (!hasItems) { showToast("Select at least one coverage", true); return; }
 
   const btn = document.getElementById("buyBtn");
   btn.disabled = true;
@@ -756,7 +756,7 @@ async function buy() {
       void xmlDiv.offsetWidth;
       xmlDiv.classList.add("visible");
       xmlDiv.scrollIntoView({ behavior: "smooth", block: "center" });
-      showToast("Order processed! XML response received.", false);
+      showToast("Application submitted! XML response received.", false);
     } else {
       const resultDiv = document.getElementById("invoiceResult");
       const link = document.getElementById("invoiceLink");
@@ -769,7 +769,7 @@ async function buy() {
       void resultDiv.offsetWidth;
       resultDiv.classList.add("visible");
       resultDiv.scrollIntoView({ behavior: "smooth", block: "center" });
-      showToast("Order processed! Invoice ready.", false);
+      showToast("Application submitted! Policy document ready.", false);
     }
 
     orderPlaced = true;
@@ -792,8 +792,8 @@ async function checkDb() {
       const checkIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
       const xIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
       el.innerHTML = found
-        ? `${checkIcon} Record found (Invoice ${lastPoNumber})`
-        : `${xIcon} No record found (Invoice ${lastPoNumber})`;
+        ? `${checkIcon} Record found (Policy Document ${lastPoNumber})`
+        : `${xIcon} No record found (Policy Document ${lastPoNumber})`;
       el.className = "db-status " + (found ? "found" : "not-found");
       el.style.display = "inline-flex";
     });

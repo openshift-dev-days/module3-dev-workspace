@@ -79,14 +79,14 @@ const createMcpServer = () => {
     return {
       tools: [
         {
-          name: "getInvoicePDFurl",
-          description: "Get the PDF url of an invoice",
+          name: "getPolicyDocumentPDFurl",
+          description: "Get the PDF url of a policy document",
           inputSchema: {
             type: "object",
             properties: {
               id: {
                 type: "string",
-                description: "The invoice ID",
+                description: "The policy document ID",
               },
             },
             required: ["id"],
@@ -98,16 +98,16 @@ const createMcpServer = () => {
 
   // Handle tool execution
   server.setRequestHandler(CallToolRequestSchema, async (request) => {
-    if (request.params.name === "getInvoicePDFurl") {
+    if (request.params.name === "getPolicyDocumentPDFurl") {
       const id = request.params.arguments?.id;
 
       if (!id || typeof id !== "string") {
-        throw new Error("Invoice ID is required and must be a string");
+        throw new Error("Policy document ID is required and must be a string");
       }
 
       try {
-        // Construct S3 object key - invoices are stored as invoice_{id}.pdf
-        const objectKey = `invoice_${id}.pdf`;
+        // Construct S3 object key - policy documents are stored as policy_{id}.pdf
+        const objectKey = `policy_${id}.pdf`;
 
         // Generate presigned URL for the PDF
         const command = new GetObjectCommand({
@@ -129,7 +129,7 @@ const createMcpServer = () => {
         };
       } catch (error) {
         // If the object doesn't exist or there's an error, return a meaningful message
-        throw new Error(`Failed to get PDF URL for invoice ${id}: ${error.message}`);
+        throw new Error(`Failed to get PDF URL for policy document ${id}: ${error.message}`);
       }
     }
 

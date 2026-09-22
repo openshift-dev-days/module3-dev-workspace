@@ -13,6 +13,13 @@ LAB=$PATH_PROJECT/lab
 # Point Camel JBang to SNAPSHOT
 # grep -rl camel /home/user/.jbang/cache/urls | grep CamelJBang.java | xargs sed -i 's/version:4.*}/version:4.8.0-SNAPSHOT}/g'
 
+# Auto-recover OCP login if DevSpaces reset the kubeconfig
+if [ "$(oc whoami 2>/dev/null)" != "${OCP_USER}" ]; then
+  LOGIN_SERVER="https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT}"
+  oc login -u "${OCP_USER}" -p "${OCP_PASSWORD}" --server="${LOGIN_SERVER}" --insecure-skip-tls-verify &>/dev/null \
+    && echo -e "\033[33m(Re-authenticated to OpenShift as ${OCP_USER})\033[0m"
+fi
+
 # Set Java 17
 export JAVA_HOME=$JAVA_HOME_17
 

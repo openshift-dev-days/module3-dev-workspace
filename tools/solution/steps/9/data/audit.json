@@ -1,43 +1,44 @@
 {
-  "invoice_audit_trail": [
+  "policy_document_audit_trail": [
     {
-      "invoice_id": "58201437",
-      "date": "2025-07-22",
-      "gross_total": "$4,860.00",
-      "status": "PAID",
-      "notes": "Bulk glassware order for corporate event. Expedited shipping applied."
+      "policy_id": "58201437",
+      "date": "2025-06-09",
+      "gross_total": "$102.84/mo",
+      "status": "ACTIVE",
+      "notes": "Initial policy document issued at onboarding. 4 coverage items: Personal Liability, Property Damage, Medical Payments, Roadside Assistance."
     },
     {
-      "invoice_id": "59843102",
-      "date": "2026-01-12",
-      "gross_total": "$1,340.50",
+      "policy_id": "59843102",
+      "date": "2026-01-09",
+      "gross_total": "$102.84/mo",
       "status": "ADJUSTED",
-      "notes": "Two items corrected from retail to wholesale pricing. Credit of $127.40 applied."
+      "notes": "Billing discrepancy corrected. December statement rounding error fixed. No coverage changes. Corrected statement reissued."
     },
     {
-      "invoice_id": "60512088",
-      "date": "2026-02-08",
-      "gross_total": "$675.20",
-      "status": "PAID",
-      "notes": "Standard restock order. No issues."
+      "policy_id": "60512088",
+      "date": "2026-02-01",
+      "gross_total": "$102.84/mo",
+      "status": "ACTIVE",
+      "notes": "Mid-term review. No coverage changes requested. Policy remains active."
     },
     {
-      "invoice_id": "61356291",
+      "policy_id": "61356291",
       "date": "2026-03-15",
-      "seller": "Georgia World Congress Center, Atlanta, GA 30313",
+      "insurer": "Parasol Insurance, One Parasol Plaza, Atlanta, GA 30313",
+      "policyholder": "Alex Morgan, 742 Maple Avenue, Austin, TX 78701",
       "items": [
-        { "no": 1, "description": "Wine Glasses Goblets Pair Clear Glass", "qty": 5, "gross": "$66.00" },
-        { "no": 2, "description": "With Hooks Stemware Storage Multiple Uses Iron Wine Rack Hanging Glass", "qty": 4, "gross": "$123.55" },
-        { "no": 3, "description": "Replacement Corkscrew Parts Spiral Worm Wine Opener Bottle Houdini", "qty": 1, "gross": "$8.25" },
-        { "no": 4, "description": "HOME ESSENTIALS GRADIENT STEMLESS WINE GLASSES SET OF 4", "qty": 1, "gross": "$14.29", "status": "RETURNED" }
+        { "no": 1, "description": "Personal Liability – Standard Plan | Bodily injury & property damage | Limit: $100,000/occurrence", "um": "mo.", "net": "$28.99" },
+        { "no": 2, "description": "Property Damage | Third-party property damage caused by insured | Limit: $50,000 | Deductible: $500", "um": "mo.", "net": "$34.50" },
+        { "no": 3, "description": "Medical Payments | No-fault medical expenses for injured parties | Limit: $5,000 per person", "um": "mo.", "net": "$18.00" },
+        { "no": 4, "description": "Roadside Assistance | 24/7 towing, jump-start & lockout service | Up to 50 miles per incident", "um": "mo.", "net": "$12.00", "status": "REMOVED" }
       ],
-      "original_gross": "$212.09",
-      "amended_gross": "$197.80",
+      "original_gross": "$102.84/mo",
+      "amended_gross": "$89.64/mo",
       "status": "AMENDED",
       "logs": [
-        { "timestamp": "2026-03-15T10:30:00Z", "action": "AUTO_GENERATE", "details": "Invoice generated from EDI purchase order. 4 items, Gross: $212.09." },
-        { "timestamp": "2026-03-22T14:05:33Z", "action": "ITEM_REMOVAL", "user": "ai-bot", "details": "Removed Item 4 (Stemless Wine Glasses). Gross adjusted: -$14.29." },
-        { "timestamp": "2026-03-22T14:06:02Z", "action": "PDF_REGENERATION", "details": "Amended invoice PDF generated. Version 2.0." }
+        { "timestamp": "2026-03-15T10:30:00Z", "action": "AUTO_GENERATE", "details": "Policy document generated from EDI purchase order. 4 coverage items, Gross: $102.84/mo." },
+        { "timestamp": "2026-03-22T14:05:33Z", "action": "ITEM_REMOVAL", "user": "ai-bot", "details": "Removed Item 4 (Roadside Assistance, $12.00/mo net). Gross adjusted: -$13.20/mo." },
+        { "timestamp": "2026-03-22T14:06:02Z", "action": "PDF_REGENERATION", "details": "Amended policy document PDF generated. Version 2.0." }
       ]
     }
   ]

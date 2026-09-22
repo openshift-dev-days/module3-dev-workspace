@@ -21,7 +21,7 @@
                   parameters:
                     query: >-
                       INSERT INTO invoices (id, data) VALUES
-                      (:#${variable.invoiceid},:#${body})
+                      (:#${variable.policyid},:#${body})
 
                       ON CONFLICT (id)
 
@@ -62,10 +62,10 @@
                           failOnNullBody: false
         - setVariable:
             id: setVariable-1059-2881
-            description: get invoiceid
-            name: invoiceid
+            description: get policyid
+            name: policyid
             xpath:
-              expression: /Invoice/InvoiceNumber/text()
+              expression: /PolicyDocument/PolicyNumber/text()
               resultQName: STRING
 - route:
     id: store-pdf-s3
@@ -89,18 +89,17 @@
               autoCreateBucket: true
               bucketNameOrArn: "{{s3.bucket}}"
               forcePathStyle: true
-              keyName: invoice_${variable.invoiceid}.pdf
+              keyName: policy_${variable.policyid}.pdf
               overrideEndpoint: true
               region: us-east-1
         - to:
             description: get Link
             uri: aws2-s3
             parameters:
-              amazonS3Presigner: "#presigner"
               autoCreateBucket: true
               bucketNameOrArn: "{{s3.bucket}}"
               forcePathStyle: true
-              keyName: invoice_${variable.invoiceid}.pdf
+              keyName: policy_${variable.policyid}.pdf
               operation: createDownloadLink
               overrideEndpoint: true
               region: us-east-1

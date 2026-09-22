@@ -1,28 +1,11 @@
-# - route:
-#     from:
-#       uri: ai-tool:custom-hello
-#       parameters:
-#         tags: test
-#         description: "custom hello message"
-#         parameter.name: string
-#         parameter.name.description: "Name to use when parameter is populated"
-#         parameter.name.required: "false"
-#       steps:
-#         - log:
-#             message: got a tool call with param ${header.name}
-#         - setBody:
-#             simple:
-#               expression: Hello ${header.name}
-
-
 - route:
     from:
-      uri: ai-tool:amend-invoice
+      uri: ai-tool:amend-policy-document
       parameters:
         tags: all
-        description: "Amends an invoice"
+        description: "Amends a policy document"
         parameter.id: string
-        parameter.id.description: "Invoice identifier"
+        parameter.id.description: "Policy document identifier"
         parameter.id.required: true
         parameter.prompt: string
         parameter.prompt.description: "instructions to modify the invoice"
@@ -35,12 +18,12 @@
                   description: set file name
                   expression:
                     simple:
-                      expression: invoice_${header.id}.pdf
+                      expression: policy_${header.id}.pdf
                   name: filename
               - to:
                   uri: direct
                   parameters:
-                    name: get-invoice-data
+                    name: get-policy-document-data
               - setBody:
                   simple:
                     expression: |-
@@ -70,7 +53,7 @@
                   description: get summary
               - setBody:
                   xpath:
-                    expression: /Amendment/Content/Invoice
+                    expression: /Amendment/Content/PolicyDocument
                     saxon: true
               - convertBodyTo:
                   type: String
@@ -97,16 +80,16 @@
                       {
                         "status":"done",
                         "summary":  "${variable.summary}",
-                        "actions":"1) Inform the user with 'The database records have been updated'. 2) Provide summary. 3) Ask if they'd like to see the new PDF invoice."
+                        "actions":"1) Inform the user with 'The database records have been updated'. 2) Provide summary. 3) Ask if they'd like to see the new PDF policy document."
                       }
             disabled: false
 - route:
-    id: get-invoice-data
-    description: get-invoice-data
+    id: get-policy-document-data
+    description: get-policy-document-data
     from:
       uri: direct
       parameters:
-        name: get-invoice-data
+        name: get-policy-document-data
       steps:
         - convertHeaderTo:
             id: convertHeaderTo-9760
@@ -191,7 +174,7 @@
               autoCreateBucket: true
               bucketNameOrArn: "{{s3.bucket}}"
               forcePathStyle: true
-              keyName: invoice_${header.id}.pdf
+              keyName: policy_${header.id}.pdf
               overrideEndpoint: true
               region: us-east-1
 

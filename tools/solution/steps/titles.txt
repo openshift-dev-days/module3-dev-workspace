@@ -8,5 +8,3 @@
 8 Create an AI assistant for support agents (MCPs Camel + NodeJS) - done
 9 Apply policies with Connectivity Link (empty keys)
 10 Apply policies with Connectivity Link (with keys)
-11 [deprecated] Create an AI assistant for support agents (MCP Quarkus)
-12 [deprecated] Create an AI assistant for support agents (MCP Quarkus) - done

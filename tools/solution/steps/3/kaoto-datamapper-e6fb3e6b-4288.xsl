@@ -3,29 +3,29 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fn="http://www.w3.org/2005/xpath-functions">
     <xsl:output method="xml" indent="yes"/>
     <xsl:template match="/">
-        <Invoice>
-            <InvoiceNumber>
+        <PolicyDocument>
+            <PolicyNumber>
                 <xsl:value-of select="/X12_850/Header/BEG/BEG-03"/>
-            </InvoiceNumber>
+            </PolicyNumber>
             <DateOfIssue>
                 <xsl:value-of select="/X12_850/Header/BEG/BEG-05"/>
             </DateOfIssue>
-            <Seller>
+            <Insurer>
                 <Name>
-                    <xsl:value-of select="&quot;Georgia World Congress Center&quot;&#10;"/>
+                    <xsl:value-of select="&quot;Parasol Insurance&quot;"/>
                 </Name>
                 <Address>
                     <Street>
-                        <xsl:value-of select="&quot;285 Andrew Young International Blvd NW&quot;"/>
+                        <xsl:value-of select="&quot;One Parasol Plaza&quot;"/>
                     </Street>
                     <City>
                         <xsl:value-of select="&quot;Atlanta&quot;"/>
                     </City>
                     <State>
-                        <xsl:value-of select="&quot;Georgia&quot;"/>
+                        <xsl:value-of select="&quot;GA&quot;"/>
                     </State>
                     <PostalCode>
-                        <xsl:value-of select="&quot;GA 30313&quot;"/>
+                        <xsl:value-of select="&quot;30313&quot;"/>
                     </PostalCode>
                 </Address>
                 <TaxId>
@@ -34,8 +34,8 @@
                 <IBAN>
                     <xsl:value-of select="/X12_850/Header/N9Loop[1]/N9/N9-02"/>
                 </IBAN>
-            </Seller>
-            <Client>
+            </Insurer>
+            <Policyholder>
                 <Name>
                     <xsl:value-of select="/X12_850/Header/N1Loop[2]/N1/N1-02"/>
                 </Name>
@@ -56,7 +56,7 @@
                 <TaxId>
                     <xsl:value-of select="/X12_850/Header/N1Loop[2]/N1/N1-04"/>
                 </TaxId>
-            </Client>
+            </Policyholder>
             <Items>
                 <xsl:for-each select="/X12_850/PO1Loop">
                     <Item>
@@ -75,11 +75,7 @@
                         <Quantity>
                             <xsl:value-of select="PO1/PO1-02"/>
                         </Quantity>
-                        <xsl:if test="PO1/PO1-03 = 'EA'">
-                            <UnitOfMeasure>
-                                <xsl:value-of select="'Each'"/>
-                            </UnitOfMeasure>
-                        </xsl:if>
+                        <UnitOfMeasure>mo.</UnitOfMeasure>
                         <NetPrice>
                             <xsl:value-of select="PO1/PO1-04"/>
                         </NetPrice>
@@ -100,15 +96,15 @@
                     <xsl:value-of select="10"/>
                 </VATPercentage>
                 <NetWorth>
-                    <xsl:value-of select="format-number(/X12_850/AMT/AMT-02 div (1.1), '0.00')"/>
+                    <xsl:value-of select="format-number(/X12_850/AMT/AMT-02, '0.00')"/>
                 </NetWorth>
                 <VATAmount>
-                    <xsl:value-of select="/X12_850/AMT/AMT-02 - number(format-number(/X12_850/AMT/AMT-02 div (1.1), '0.00'))"/>
+                    <xsl:value-of select="format-number(/X12_850/AMT/AMT-02 * 0.10, '0.00')"/>
                 </VATAmount>
                 <GrossWorth>
-                    <xsl:value-of select="/X12_850/AMT/AMT-02"/>
+                    <xsl:value-of select="format-number(/X12_850/AMT/AMT-02 * 1.10, '0.00')"/>
                 </GrossWorth>
             </Summary>
-        </Invoice>
+        </PolicyDocument>
     </xsl:template>
 </xsl:stylesheet>

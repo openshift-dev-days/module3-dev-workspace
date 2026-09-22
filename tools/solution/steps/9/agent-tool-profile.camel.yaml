@@ -2,13 +2,13 @@
     id: tool-customer-profile
     from:
       id: tool-customer-profile
-      uri: ai-tool:amend-invoice
+      uri: ai-tool:get-customer-profile
       parameters:
         tags: all
         description: "Gets customer profile"
-        parameter.invoiceid: string
-        parameter.invoiceid.description: "Gets customer profile"
-        parameter.invoiceid.required: true
+        parameter.policyid: string
+        parameter.policyid.description: "Policy document identifier"
+        parameter.policyid.required: true
       steps:
         - step:
             steps:

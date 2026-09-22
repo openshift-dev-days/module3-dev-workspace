@@ -1,51 +1,45 @@
 {
   "interaction_history": [
     {
-      "date": "2025-04-10",
+      "date": "2025-06-09",
       "type": "Email",
-      "summary": "Initial onboarding. Customer signed wholesale agreement for barware and kitchen accessories.",
+      "summary": "Policy onboarding completed. Policyholder signed up for a 4-coverage plan including Personal Liability, Property Damage, Medical Payments, and Roadside Assistance.",
       "sentiment": "Positive"
     },
     {
-      "date": "2025-07-22",
+      "date": "2025-08-14",
       "type": "Chat",
-      "summary": "Bulk order inquiry — 200 units of assorted glassware for corporate event. Fulfilled under expedited shipping.",
+      "summary": "Policyholder enquired about Roadside Assistance coverage limits. Confirmed 24/7 towing up to 50 miles per incident. No changes requested.",
       "sentiment": "Positive"
     },
     {
-      "date": "2025-09-05",
+      "date": "2025-11-20",
       "type": "Email",
-      "summary": "Delayed shipment on order 58201437. Customer notified proactively, offered 5% discount on next order.",
+      "summary": "Annual premium review sent. Policyholder acknowledged receipt. No coverage changes at this time.",
       "sentiment": "Neutral"
     },
     {
-      "date": "2025-11-18",
-      "type": "Chat",
-      "summary": "Customer requested updated product catalog for Q1 2026 planning. Catalog sent same day.",
-      "sentiment": "Positive"
-    },
-    {
-      "date": "2026-01-12",
+      "date": "2026-01-08",
       "type": "Phone",
-      "summary": "Pricing dispute on order 59843102. Two items charged at retail instead of wholesale rate. Manual credit applied.",
+      "summary": "Policyholder reported a minor billing discrepancy on the December statement. Issue traced to a rounding error. Corrected and confirmation sent.",
       "sentiment": "Negative"
     },
     {
       "date": "2026-03-15",
       "type": "Chat",
-      "summary": "Customer placed order 61356291 for wine glasses, stemware rack, corkscrew, and stemless wine glasses set. Total: $212.09.",
+      "summary": "Policy document 61356291 generated from EDI purchase order. 4 coverage items: Personal Liability, Property Damage, Medical Payments, Roadside Assistance. Total gross: $102.84/mo.",
       "sentiment": "Positive"
     },
     {
       "date": "2026-03-22",
       "type": "Chat",
-      "summary": "Customer requested return of stemless wine glasses (Item 4, $14.29 gross). Invoice amended, item removed, totals recalculated.",
+      "summary": "Policyholder requested removal of Roadside Assistance (Item 4, $12.00 net). Policy document amended, PDF regenerated. New gross: $89.64/mo.",
       "sentiment": "Neutral"
     },
     {
       "date": "2026-03-22",
       "type": "Chat",
-      "summary": "Support agent raised HelpDesk ticket #1025 for refund processing. Ticket shared with customer via Matrix.",
+      "summary": "Support agent raised HelpDesk ticket #1025 for premium adjustment processing. Ticket shared with policyholder via Matrix.",
       "sentiment": "Positive"
     }
   ]

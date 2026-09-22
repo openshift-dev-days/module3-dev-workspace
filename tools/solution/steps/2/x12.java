@@ -268,8 +268,8 @@ public class x12 extends RouteBuilder {
         float pageHeight = pageSize.getHeight();
         
 
-        drawSectionMarker("Seller", pdfDoc, canvas);
-        drawSectionMarker("ITEMS", pdfDoc, canvas);
+        drawSectionMarker("Insurer", pdfDoc, canvas);
+        drawSectionMarker("COVERAGE DETAILS", pdfDoc, canvas);
         drawSectionMarker("SUMMARY", pdfDoc, canvas);
 
         // Define the stripe: 10 points wide, in the right margin (36 points from right edge)

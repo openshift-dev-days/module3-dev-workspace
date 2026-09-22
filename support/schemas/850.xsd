@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 
-  <!-- Root Element: Invoice -->
-  <xs:element name="Invoice">
+  <!-- Root Element: PolicyDocument -->
+  <xs:element name="PolicyDocument">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="InvoiceNumber" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="PolicyNumber" type="xs:string" minOccurs="1" maxOccurs="1"/>
         <xs:element name="DateOfIssue" type="xs:date" minOccurs="1" maxOccurs="1"/>
-        <xs:element name="Seller" type="PartyType" minOccurs="1" maxOccurs="1"/>
-        <xs:element name="Client" type="PartyType" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="Insurer" type="PartyType" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="Policyholder" type="PartyType" minOccurs="1" maxOccurs="1"/>
         <xs:element name="Items" type="ItemsType" minOccurs="1" maxOccurs="1"/>
         <xs:element name="Summary" type="SummaryType" minOccurs="1" maxOccurs="1"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
 
-  <!-- Party Type (Seller/Client) -->
+  <!-- Party Type (Insurer/Policyholder) -->
   <xs:complexType name="PartyType">
     <xs:sequence>
       <xs:element name="Name" type="xs:string" minOccurs="1" maxOccurs="1"/>
       <xs:element name="Address" type="AddressType" minOccurs="1" maxOccurs="1"/>
       <xs:element name="TaxId" type="xs:string" minOccurs="1" maxOccurs="1"/>
-      <xs:element name="IBAN" type="xs:string" minOccurs="0" maxOccurs="1"/> <!-- Optional for Seller -->
+      <xs:element name="IBAN" type="xs:string" minOccurs="0" maxOccurs="1"/> <!-- Optional for Insurer -->
     </xs:sequence>
   </xs:complexType>
 

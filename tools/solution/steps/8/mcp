@@ -230,9 +230,9 @@ function status_camel() {
 
 function logs_camel() {
     if [ "$1" == "-f" ]; then
-        camel logs --name "$CAMEL_PROCESS_NAME" --follow
+        camel log "$CAMEL_PROCESS_NAME" --follow
     else
-        camel logs --name "$CAMEL_PROCESS_NAME" --tail 50
+        camel log "$CAMEL_PROCESS_NAME" --tail 50
     fi
 }
 
