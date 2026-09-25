@@ -3,7 +3,7 @@
 		"kaoto.colorTheme": "light",
 		"kaoto.executor.type": "camel-launcher",
 		"kaoto.canvasLayoutDirection": "Horizontal",
-		"kaoto.runtimeCatalogName": "Camel Main 4.22.0",
+		"kaoto.runtimeCatalogName": "Camel Main 4.22.1",
 		"kaoto.catalog.url": "https://raw.githubusercontent.com/KaotoIO/camel-catalog/refs/heads/main/catalog/index.json",
 		"telemetry.feedback.enabled": false,
 		"redhat.telemetry.enabled": false,
