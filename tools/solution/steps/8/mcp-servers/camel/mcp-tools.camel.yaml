@@ -129,7 +129,7 @@
             simple: >-
               {
                 "subject": "${header.subject}",
-                "issue": "${header.content}<br><br>[📄 View Invoice PDF](${header.invoiceUrl})"
+                "issue": "${header.content}<br><br>[📄 View Policy Document PDF](${header.invoiceUrl})"
               }
             description: set JSON call
         - to:
