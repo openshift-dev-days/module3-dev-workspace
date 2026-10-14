@@ -4,7 +4,8 @@ metadata:
   name: helpdesk-create-ticket
   annotations:
     camel.apache.org/kamelet.support.level: "Stable"
-    camel.apache.org/catalog.version: "main-SNAPSHOT"
+    camel.apache.org/catalog.version: "custom-0.0.1"
+    camel.apache.org/provider: "Custom Kamelets"
     camel.apache.org/kamelet.group: "Helpdesk"
   labels:
     camel.apache.org/kamelet.type: "sink"

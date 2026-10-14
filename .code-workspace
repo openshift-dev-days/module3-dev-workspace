@@ -5,6 +5,13 @@
 		"kaoto.canvasLayoutDirection": "Horizontal",
 		"kaoto.runtimeCatalogName": "Camel Main 4.22.1",
 		"kaoto.catalog.url": "https://raw.githubusercontent.com/KaotoIO/camel-catalog/refs/heads/main/catalog/index.json",
+
+		"kaoto.localKameletDirectories": [
+			".",
+			"./kamelets",
+			"/projects/workshop/support/kamelets"
+		],
+
 		"telemetry.feedback.enabled": false,
 		"redhat.telemetry.enabled": false,
 		"security.workspace.trust.enabled": false,
